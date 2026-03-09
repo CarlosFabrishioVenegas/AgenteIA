@@ -1,0 +1,47 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Agente IA VIRF — Model Risk Financial Controller
+# requirements.txt
+#
+# Instalación:
+#   pip install -r requirements.txt
+#
+# Entorno virtual recomendado (evita conflictos con otros proyectos):
+#   python -m venv venv
+#   source venv/bin/activate        # Mac / Linux
+#   venv\Scripts\activate           # Windows
+#   pip install -r requirements.txt
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Llamadas a la API de Anthropic (Claude) ───────────────────────────────────
+requests>=2.31.0,<3.0.0
+
+# ── Lectura y generación de archivos Word (.docx) ────────────────────────────
+python-docx>=1.1.0,<2.0.0
+
+# ── Lectura y generación de archivos Excel (.xlsx) ───────────────────────────
+openpyxl>=3.1.0,<4.0.0
+
+# ── Manipulación de datos tabulares (Excel, CSV) ─────────────────────────────
+pandas>=2.0.0,<4.0.0
+
+# ── Extracción de texto de archivos PDF ──────────────────────────────────────
+pdfminer.six>=20221105
+
+# ── Lectura de presentaciones PowerPoint (.pptx) ─────────────────────────────
+python-pptx>=0.6.23,<2.0.0
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Notas de compatibilidad:
+#
+#   Python requerido: >= 3.10
+#     (se usa sintaxis de union types: dict | None, list[dict])
+#     Para verificar: python --version
+#
+#   Si usas Python 3.9 o inferior, reemplaza en el código:
+#     dict | None  →  Optional[dict]
+#     list[dict]   →  List[dict]
+#     (y agrega: from typing import Optional, List)
+#
+#   pdfminer.six es necesario para leer PDFs. Si no lo puedes instalar,
+#   el agente continúa funcionando pero los PDFs no serán legibles.
+# ─────────────────────────────────────────────────────────────────────────────
