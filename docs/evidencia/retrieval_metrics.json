@@ -1,0 +1,27 @@
+{
+  "n_discriminantes": 25,
+  "n_adversarias": 4,
+  "size": {
+    "doc_recall@1": 0.96,
+    "doc_recall@3": 1.0,
+    "doc_recall@10": 1.0,
+    "ans@1": 0.88,
+    "ans@3": 0.96,
+    "ans@10": 1.0,
+    "precision@5": 0.52,
+    "ndcg@10": 0.9459
+  },
+  "estructural": {
+    "doc_recall@1": 0.96,
+    "doc_recall@3": 1.0,
+    "doc_recall@10": 1.0,
+    "ans@1": 0.84,
+    "ans@3": 1.0,
+    "ans@10": 1.0,
+    "precision@5": 0.52,
+    "ndcg@10": 0.9409
+  },
+  "B1_recall@10": 1.0,
+  "B2_precision@5": 0.52,
+  "B3_ndcg@10": 0.9459
+}

@@ -1,0 +1,313 @@
+{
+  "proyecto": "VIRF Agent",
+  "hito": "Dia-1",
+  "fecha": "2026-08-28",
+  "commit": "0e68d35",
+  "resumen": {
+    "verde": 7,
+    "ambar": 1,
+    "rojo": 6,
+    "na": 15
+  },
+  "indicadores": [
+    {
+      "id": "A1",
+      "nombre": "Fases E2E implementadas",
+      "valor": "0/11 completas (7 parciales)",
+      "umbral": "informativo",
+      "estado": "ROJO",
+      "evidencia": "PLAN §4.1; Mx_01_LecturaEvidencias.py:72-91,170-179; motor_ia.py:402-444"
+    },
+    {
+      "id": "A2",
+      "nombre": "Checklist técnico cumplido",
+      "valor": "0/12 completos",
+      "umbral": "informativo",
+      "estado": "ROJO",
+      "evidencia": "PLAN §3.2 (GAP-12..GAP-23)"
+    },
+    {
+      "id": "A3",
+      "nombre": "Skills operativas (declaradas+test)",
+      "valor": "0/6 guía (existen 8 skills-prompt sin test unitario)",
+      "umbral": "informativo",
+      "estado": "ROJO",
+      "evidencia": "modulos/skills/catalogo.py; base.py:62 ResultadoSkill(dict) no Pydantic"
+    },
+    {
+      "id": "A4",
+      "nombre": "Antipatrones neutralizados con prueba",
+      "valor": "2/11",
+      "umbral": "informativo",
+      "estado": "ROJO",
+      "evidencia": "test_regresion.py:395; test_pendientes_auditoria.py:2022"
+    },
+    {
+      "id": "B1",
+      "nombre": "Recall@10",
+      "valor": "NA",
+      "umbral": ">=0.85",
+      "estado": "NA",
+      "evidencia": "API para fase posterior (IR/RAGAS requieren corrida real)"
+    },
+    {
+      "id": "B2",
+      "nombre": "Precision@5",
+      "valor": "NA",
+      "umbral": ">=0.85",
+      "estado": "NA",
+      "evidencia": "API para fase posterior (IR/RAGAS requieren corrida real)"
+    },
+    {
+      "id": "B3",
+      "nombre": "nDCG@10",
+      "valor": "NA",
+      "umbral": "informativo",
+      "estado": "NA",
+      "evidencia": "API para fase posterior (IR/RAGAS requieren corrida real)"
+    },
+    {
+      "id": "B4",
+      "nombre": "Tamaño Golden Dataset",
+      "valor": "NA",
+      "umbral": ">=30 preguntas",
+      "estado": "NA",
+      "evidencia": "API para fase posterior (IR/RAGAS requieren corrida real)"
+    },
+    {
+      "id": "C1",
+      "nombre": "Faithfulness/Groundedness",
+      "valor": "NA",
+      "umbral": ">=0.85",
+      "estado": "NA",
+      "evidencia": "API para fase posterior (IR/RAGAS requieren corrida real)"
+    },
+    {
+      "id": "C2",
+      "nombre": "Answer Relevancy",
+      "valor": "NA",
+      "umbral": ">=0.80",
+      "estado": "NA",
+      "evidencia": "API para fase posterior (IR/RAGAS requieren corrida real)"
+    },
+    {
+      "id": "C3",
+      "nombre": "Citation Precision/Recall",
+      "valor": "NA",
+      "umbral": ">=0.80",
+      "estado": "NA",
+      "evidencia": "API para fase posterior (IR/RAGAS requieren corrida real)"
+    },
+    {
+      "id": "D1",
+      "nombre": "Inyección error matemático→DESVIADO",
+      "valor": "NA-diferido (fixture listo)",
+      "umbral": "PASA",
+      "estado": "NA",
+      "evidencia": "E2E requiere API; fixture presente"
+    },
+    {
+      "id": "D2",
+      "nombre": "Contaminación model_id",
+      "valor": "0%",
+      "umbral": "0%",
+      "estado": "VERDE",
+      "evidencia": "pytest '*spillover*' PASSED"
+    },
+    {
+      "id": "D3",
+      "nombre": "Abstención activa",
+      "valor": "PASA",
+      "umbral": "PASA",
+      "estado": "VERDE",
+      "evidencia": "pytest '*abstencion*' PASSED"
+    },
+    {
+      "id": "D4",
+      "nombre": "Citas verificadas (determinístico; NLI diferido)",
+      "valor": "det=PASA (NLI diferido)",
+      "umbral": "det=PASA; NLI>=0.80 diferido",
+      "estado": "VERDE",
+      "evidencia": "pytest '*cita_determinista*' PASSED (parte NLI/entailment = NA-diferido, API)"
+    },
+    {
+      "id": "D5",
+      "nombre": "Resistencia a IPI",
+      "valor": "NA-diferido",
+      "umbral": "PASA",
+      "estado": "NA",
+      "evidencia": "E2E requiere API; separación datos/instrucción en Mx_02:249-267"
+    },
+    {
+      "id": "D6",
+      "nombre": "Circuit breakers",
+      "valor": "cap+fusibles configurados (INTENTOS_CONTRATO=2)",
+      "umbral": "SÍ+valores",
+      "estado": "VERDE",
+      "evidencia": "config/parametros.py: MAX_ITER + FUSIBLE_SEG + FUSIBLE_TOKENS presentes"
+    },
+    {
+      "id": "D7",
+      "nombre": "Linaje reconstruible E2E",
+      "valor": "NA",
+      "umbral": "PASA",
+      "estado": "NA",
+      "evidencia": "test '*linaje*' aún no existe en la suite"
+    },
+    {
+      "id": "E1",
+      "nombre": "pytest passed/failed/skipped",
+      "valor": "916 passed / 0 failed / 1 skipped",
+      "umbral": "0 failed",
+      "estado": "VERDE",
+      "evidencia": "docs/evidencia/pytest_*.xml (JUnit)"
+    },
+    {
+      "id": "E2",
+      "nombre": "Cobertura de tests",
+      "valor": "NA",
+      "umbral": ">=60% núcleo",
+      "estado": "NA",
+      "evidencia": "pytest-cov ausente en requirements.txt; no se añade sin autorización"
+    },
+    {
+      "id": "E3",
+      "nombre": "Linter errores/warnings",
+      "valor": "NA",
+      "umbral": "informativo",
+      "estado": "NA",
+      "evidencia": "linter ausente en requirements.txt"
+    },
+    {
+      "id": "E4",
+      "nombre": "Arranque FastAPI (verificación)",
+      "valor": "OK",
+      "umbral": "OK",
+      "estado": "VERDE",
+      "evidencia": "python -c 'import web.app' → returncode 0"
+    },
+    {
+      "id": "E5",
+      "nombre": "Dependencias nuevas introducidas",
+      "valor": "0",
+      "umbral": "mínimas y justificadas",
+      "estado": "VERDE",
+      "evidencia": "requirements.txt sin cambios respecto al baseline"
+    },
+    {
+      "id": "F1",
+      "nombre": ".docx genera sin error",
+      "valor": "NA-diferido",
+      "umbral": "SÍ",
+      "estado": "NA",
+      "evidencia": "generación real requiere corrida; test '*docx_regresion*' aún no existe en la suite"
+    },
+    {
+      "id": "F2",
+      "nombre": "Veredictos por ámbito presentes",
+      "valor": "NO (semáforo/DICTAMEN)",
+      "umbral": "SÍ",
+      "estado": "ROJO",
+      "evidencia": "grep APROBADO/PENDIENTE/NO APROBADO en generador_word.py"
+    },
+    {
+      "id": "F3",
+      "nombre": "Secciones obligatorias (n/4)",
+      "valor": "1/4 (sin_obs=1, pie_pag=0, refs=0, concl_ámbito=0)",
+      "umbral": "4/4",
+      "estado": "ROJO",
+      "evidencia": "inspección de generador_word.py / word_estilo.py"
+    },
+    {
+      "id": "G1",
+      "nombre": "WPs completados",
+      "valor": "6/8",
+      "umbral": "informativo",
+      "estado": "AMBAR",
+      "evidencia": "wps_estado del propio paquete"
+    },
+    {
+      "id": "G2",
+      "nombre": "Brechas Gap Matrix cerradas",
+      "valor": "ver wps_estado",
+      "umbral": "informativo",
+      "estado": "NA",
+      "evidencia": "se consolida al cierre del día"
+    },
+    {
+      "id": "G3",
+      "nombre": "Archivos modificados en el hito",
+      "valor": "[\".env.example\", \"config/__init__.py\", \"config/parametros.py\", \"docs/PLAN_MAESTRO_VIRF.md\", \"docs/evidencia/reconciliacion_dia1.md\", \"modulos/abstencion.py\", \"modulos/aislamiento.py\", \"modulos/chunker_estructural.py\", \"modulos/fusibles.py\", \"modulos/validador_citas.py\", \"src/rag/buscador_lexico.py\", \"tests/fixtures/var_injection/manual_var_demo.md\", \"tests/fixtures/var_injection/modelo_var_demo.py\", \"tests/fixtures/var_injection/modelo_var_roto.py\", \"tests/test_abstencion.py\", \"tests/test_aislamiento.py\", \"tests/test_chunker_estructural.py\", \"tests/test_circuit_breakers.py\", \"tests/test_citas_deterministas.py\", \"verificador_virf.py\"]",
+      "umbral": "lista",
+      "estado": "NA",
+      "evidencia": "git diff --name-only f0bffc0 HEAD"
+    }
+  ],
+  "wps_estado": [
+    {
+      "wp_id": "WP-00",
+      "estado": "HECHO",
+      "indicadores_movidos": [
+        "E1",
+        "E4",
+        "A1",
+        "A2",
+        "A3"
+      ]
+    },
+    {
+      "wp_id": "WP-05",
+      "estado": "HECHO",
+      "indicadores_movidos": [
+        "D6"
+      ]
+    },
+    {
+      "wp_id": "WP-01",
+      "estado": "HECHO",
+      "indicadores_movidos": [
+        "D3"
+      ]
+    },
+    {
+      "wp_id": "WP-02",
+      "estado": "HECHO",
+      "indicadores_movidos": [
+        "D2"
+      ]
+    },
+    {
+      "wp_id": "WP-03",
+      "estado": "HECHO",
+      "indicadores_movidos": [
+        "D4"
+      ]
+    },
+    {
+      "wp_id": "WP-07",
+      "estado": "EN_CURSO",
+      "indicadores_movidos": [
+        "D1"
+      ]
+    },
+    {
+      "wp_id": "GAP-29-chunking",
+      "estado": "HECHO",
+      "indicadores_movidos": []
+    },
+    {
+      "wp_id": "WP-08",
+      "estado": "PENDIENTE",
+      "indicadores_movidos": [
+        "F1",
+        "F2",
+        "F3"
+      ]
+    }
+  ],
+  "regresiones": [],
+  "bloqueos": [
+    "Guías normativas ausentes en docs/guias/ (Decisión #1); Día 1 ejecutado contra el checklist embebido del plan",
+    "Indicadores B/C (IR/RAGAS), D1 (inyección E2E), D5 (IPI E2E) y F1 (.docx real) requieren API: quedan NA-diferidos hasta encender crédito. Mecanismos y fixtures ya cableados y probados con mocks."
+  ]
+}

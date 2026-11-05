@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cómo aprende el agente</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#FAF8F4; --panel:#FFFFFF; --ink:#23262E; --ink-soft:#3C4049;
+  --grey:#6E7480; --line:#E4DED4; --line-soft:#EFEAE1;
+  --sello:#B44B3E; --sello-soft:#F3E4DF;
+  --code-bg:#F3EFE8; --code-ink:#3A3E46;
+  --ok:#2E7D57; --ok-bg:#E6F1EB;
+  --warn:#B8832B; --warn-bg:#F6EDD8;
+  --bad:#C0483B; --bad-bg:#F7E4E0;
+  --accent2:#3E6E8E;
+  --mono:"IBM Plex Mono",ui-monospace,"Cascadia Code",Consolas,monospace;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,sans-serif;
+  --disp:"Fraunces",Georgia,serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#191B20; --panel:#20232A; --ink:#E9E6DF; --ink-soft:#CFCBC2;
+    --grey:#9A9EA8; --line:#31353E; --line-soft:#2A2E36;
+    --sello:#E08373; --sello-soft:#3A2723;
+    --code-bg:#23262E; --code-ink:#CDD0D8;
+    --ok:#63C295; --ok-bg:#1E3329; --warn:#E0B45C; --warn-bg:#33291339;
+    --bad:#E88576; --bad-bg:#331F1B; --accent2:#7FB0CF;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#191B20; --panel:#20232A; --ink:#E9E6DF; --ink-soft:#CFCBC2;
+  --grey:#9A9EA8; --line:#31353E; --line-soft:#2A2E36;
+  --sello:#E08373; --sello-soft:#3A2723;
+  --code-bg:#23262E; --code-ink:#CDD0D8;
+  --ok:#63C295; --ok-bg:#1E3329; --warn:#E0B45C; --warn-bg:#2E2513;
+  --bad:#E88576; --bad-bg:#331F1B; --accent2:#7FB0CF;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+  font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.wrap{max-width:830px;margin:0 auto;padding:0 24px}
+a{color:var(--sello)}
+
+/* header */
+header{border-bottom:1px solid var(--line);background:var(--panel)}
+.head-inner{max-width:830px;margin:0 auto;padding:38px 24px 30px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--sello);margin:0 0 14px}
+h1{font-family:var(--disp);font-weight:600;font-size:clamp(30px,5vw,44px);line-height:1.08;
+  margin:0 0 14px;text-wrap:balance;letter-spacing:-.01em}
+.lede{font-size:18px;color:var(--ink-soft);margin:0;max-width:64ch}
+.thesis{margin:22px 0 0;padding:16px 18px;border-left:3px solid var(--sello);
+  background:var(--sello-soft);border-radius:0 8px 8px 0;font-size:15.5px;color:var(--ink)}
+.thesis b{color:var(--sello)}
+
+main{padding:8px 0 72px}
+section{padding:34px 0;border-bottom:1px solid var(--line-soft)}
+section:last-child{border-bottom:none}
+h2{font-family:var(--disp);font-weight:600;font-size:25px;line-height:1.2;margin:0 0 6px;
+  letter-spacing:-.01em;display:flex;align-items:baseline;gap:12px}
+h2 .n{font-family:var(--mono);font-size:14px;color:var(--sello);font-weight:500;
+  border:1px solid var(--sello);border-radius:6px;padding:2px 8px;flex:none;line-height:1.4}
+h3{font-family:var(--sans);font-weight:600;font-size:16.5px;margin:26px 0 8px;color:var(--ink)}
+p{margin:12px 0}
+.sub{color:var(--grey);font-size:15px;margin:2px 0 0}
+strong{font-weight:600}
+
+code,.path{font-family:var(--mono);font-size:13.2px;background:var(--code-bg);color:var(--code-ink);
+  padding:1.5px 6px;border-radius:5px;border:1px solid var(--line-soft)}
+.path{white-space:nowrap}
+
+/* code reference chip */
+.ref{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11.5px;
+  color:var(--grey);background:transparent;border:1px dashed var(--line);border-radius:6px;
+  padding:2px 7px;margin:2px 4px 2px 0;white-space:nowrap}
+.ref b{color:var(--ink-soft);font-weight:500}
+.refs{margin:14px 0 0;display:flex;flex-wrap:wrap;gap:2px}
+
+/* callouts */
+.note{margin:18px 0;padding:14px 16px;border-radius:9px;border:1px solid var(--line);
+  background:var(--panel);font-size:14.5px}
+.note.warn{border-color:color-mix(in srgb,var(--warn) 45%,var(--line));background:var(--warn-bg)}
+.note.ok{border-color:color-mix(in srgb,var(--ok) 40%,var(--line));background:var(--ok-bg)}
+.note .lbl{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  display:block;margin-bottom:5px;font-weight:600}
+.note.warn .lbl{color:var(--warn)} .note.ok .lbl{color:var(--ok)}
+
+/* flow diagram */
+.flow{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:8px;margin:22px 0;
+  overflow-x:auto}
+.flow svg{display:block;width:100%;min-width:560px;height:auto}
+
+/* record schema */
+.record{background:var(--code-bg);border:1px solid var(--line);border-radius:11px;padding:4px 2px;margin:16px 0;
+  overflow-x:auto}
+.record table{border-collapse:collapse;width:100%;min-width:520px;font-size:13px}
+.record td{padding:7px 14px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+.record tr:last-child td{border-bottom:none}
+.record .k{font-family:var(--mono);color:var(--sello);white-space:nowrap;font-size:12.5px}
+.record .v{color:var(--ink-soft)}
+
+/* mapping cards */
+.maps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:18px 0}
+@media(max-width:640px){.maps{grid-template-columns:1fr}}
+.map{border:1px solid var(--line);border-radius:11px;padding:14px 15px;background:var(--panel)}
+.map .verdict{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.06em;
+  padding:3px 9px;border-radius:20px;display:inline-block;margin-bottom:9px}
+.map.a .verdict{background:var(--ok-bg);color:var(--ok)}
+.map.n .verdict{background:var(--bad-bg);color:var(--bad)}
+.map.p .verdict{background:var(--code-bg);color:var(--grey)}
+.map p{margin:0;font-size:13.5px;color:var(--ink-soft);line-height:1.5}
+.map .eq{font-family:var(--mono);font-size:12px;color:var(--ink);display:block;margin-top:8px}
+
+/* mechanism list */
+.mech{border:1px solid var(--line);border-left:3px solid var(--accent2);border-radius:0 11px 11px 0;
+  padding:16px 18px;margin:16px 0;background:var(--panel)}
+.mech.m2{border-left-color:var(--warn)} .mech.m3{border-left-color:var(--sello)}
+.mech .tag{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--accent2);font-weight:600}
+.mech.m2 .tag{color:var(--warn)} .mech.m3 .tag{color:var(--sello)}
+.mech h3{margin:5px 0 6px}
+.mech p{margin:8px 0}
+
+pre{background:var(--code-bg);border:1px solid var(--line);border-radius:11px;padding:15px 17px;
+  overflow-x:auto;font-family:var(--mono);font-size:12.8px;line-height:1.62;color:var(--code-ink);margin:16px 0}
+pre .c{color:var(--grey)} pre .s{color:var(--sello)} pre .g{color:var(--ok)}
+
+.isnot{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+@media(max-width:640px){.isnot{grid-template-columns:1fr}}
+.col h3{margin-top:0}
+.col ul{margin:6px 0 0;padding-left:0;list-style:none}
+.col li{position:relative;padding:5px 0 5px 26px;font-size:14.5px;color:var(--ink-soft);border-bottom:1px solid var(--line-soft)}
+.col li:last-child{border-bottom:none}
+.col li::before{position:absolute;left:0;top:4px;font-family:var(--mono);font-weight:600}
+.col.no li::before{content:"✕";color:var(--bad)}
+.col.yes li::before{content:"✓";color:var(--ok)}
+
+footer{padding:26px 0 40px;color:var(--grey);font-size:13px;font-family:var(--mono)}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-inner">
+    <p class="eyebrow">VIRF Agent · flujo real de aprendizaje</p>
+    <h1>Cómo aprende el agente de las correcciones</h1>
+    <p class="lede">Recorrido por el código —qué función se ejecuta, qué se escribe en disco y cómo influye en la siguiente corrida— sin la versión de folleto.</p>
+    <div class="thesis">
+      En una frase: <b>no hay reentrenamiento ni pesos que cambien.</b> Cada corrección humana se guarda como una fila en un JSON, y en la siguiente evaluación esa fila vuelve al modelo de dos formas: como <b>texto en el prompt</b> y como un <b>ajuste numérico acotado</b> sobre el puntaje. El "aprendizaje" es memoria acumulada + calibración, no un modelo que se modifica.
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+<!-- 1 -->
+<section>
+  <h2><span class="n">01</span> El mapa en una imagen</h2>
+  <p class="sub">Dos puertas de entrada escriben en un único almacén; tres mecanismos lo leen al evaluar.</p>
+  <div class="flow">
+    <svg viewBox="0 0 720 340" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Mono, monospace">
+      <defs>
+        <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+          <path d="M0,0 L7,3 L0,6 Z" fill="var(--grey)"/>
+        </marker>
+      </defs>
+      <!-- write sources -->
+      <g>
+        <rect x="12" y="26" width="196" height="52" rx="9" fill="var(--panel)" stroke="var(--accent2)" stroke-width="1.5"/>
+        <text x="110" y="48" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)">Bucle CLI de feedback</text>
+        <text x="110" y="65" text-anchor="middle" font-size="10.5" fill="var(--grey)">--preprdc · corrige 1–5</text>
+
+        <rect x="12" y="98" width="196" height="52" rx="9" fill="var(--panel)" stroke="var(--accent2)" stroke-width="1.5"/>
+        <text x="110" y="120" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--ink)">Chat de sustentación</text>
+        <text x="110" y="137" text-anchor="middle" font-size="10.5" fill="var(--grey)">web · APROBADO / NEGADO</text>
+      </g>
+      <!-- store -->
+      <rect x="278" y="55" width="164" height="66" rx="11" fill="var(--sello-soft)" stroke="var(--sello)" stroke-width="1.6"/>
+      <text x="360" y="82" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--sello)">historial_feedback</text>
+      <text x="360" y="99" text-anchor="middle" font-size="10.5" fill="var(--ink-soft)">.json · lista de filas</text>
+      <text x="360" y="113" text-anchor="middle" font-size="9.5" fill="var(--grey)">lock + escritura atómica</text>
+
+      <path d="M210,52 C245,52 250,80 276,82" fill="none" stroke="var(--grey)" stroke-width="1.4" marker-end="url(#ar)"/>
+      <path d="M210,124 C245,124 250,96 276,94" fill="none" stroke="var(--grey)" stroke-width="1.4" marker-end="url(#ar)"/>
+
+      <!-- apply mechanisms -->
+      <g>
+        <rect x="512" y="12" width="196" height="50" rx="9" fill="var(--panel)" stroke="var(--accent2)" stroke-width="1.4"/>
+        <text x="610" y="32" text-anchor="middle" font-size="11.5" font-weight="600" fill="var(--ink)">1 · Contexto en el prompt</text>
+        <text x="610" y="48" text-anchor="middle" font-size="9.5" fill="var(--grey)">correcciones similares → texto</text>
+
+        <rect x="512" y="70" width="196" height="50" rx="9" fill="var(--panel)" stroke="var(--warn)" stroke-width="1.4"/>
+        <text x="610" y="90" text-anchor="middle" font-size="11.5" font-weight="600" fill="var(--ink)">2 · Advertencia por sesgo</text>
+        <text x="610" y="106" text-anchor="middle" font-size="9.5" fill="var(--grey)">tendencia del ámbito → aviso</text>
+
+        <rect x="512" y="128" width="196" height="50" rx="9" fill="var(--panel)" stroke="var(--sello)" stroke-width="1.4"/>
+        <text x="610" y="148" text-anchor="middle" font-size="11.5" font-weight="600" fill="var(--ink)">3 · Ajuste del puntaje</text>
+        <text x="610" y="164" text-anchor="middle" font-size="9.5" fill="var(--grey)">post-hoc · n≥15 · ×0.4 · ±1</text>
+      </g>
+      <path d="M444,80 C478,80 480,37 510,37" fill="none" stroke="var(--grey)" stroke-width="1.4" marker-end="url(#ar)"/>
+      <path d="M444,90 C478,90 480,95 510,95" fill="none" stroke="var(--grey)" stroke-width="1.4" marker-end="url(#ar)"/>
+      <path d="M444,100 C478,100 480,153 510,153" fill="none" stroke="var(--grey)" stroke-width="1.4" marker-end="url(#ar)"/>
+
+      <!-- next run -->
+      <rect x="512" y="206" width="196" height="46" rx="9" fill="var(--ok-bg)" stroke="var(--ok)" stroke-width="1.5"/>
+      <text x="610" y="227" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ok)">Puntaje final</text>
+      <text x="610" y="243" text-anchor="middle" font-size="9.5" fill="var(--ink-soft)">de la siguiente corrida</text>
+      <path d="M610,178 L610,204" fill="none" stroke="var(--grey)" stroke-width="1.4" marker-end="url(#ar)"/>
+
+      <text x="16" y="300" font-size="10.5" fill="var(--grey)">Escritura</text>
+      <text x="300" y="300" font-size="10.5" fill="var(--grey)">Almacén</text>
+      <text x="516" y="300" font-size="10.5" fill="var(--grey)">Lectura / aplicación en la evaluación</text>
+      <line x1="16" y1="308" x2="704" y2="308" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 4"/>
+    </svg>
+  </div>
+</section>
+
+<!-- 2 -->
+<section>
+  <h2><span class="n">02</span> Puerta A — corrección en consola</h2>
+  <p>Al terminar una corrida <code>--preprdc</code>, el agente abre un bucle interactivo donde el validador puede corregir el puntaje (1–5) de cualquier actividad evaluada. Escribe el número correcto y un comentario de <em>qué debió hacer el agente</em>.</p>
+  <p>Cada corrección se convierte en una fila y se persiste al instante. Un detalle real del código: si la actividad <strong>nunca tuvo puntaje del agente</strong> (falló o faltó evidencia), el bucle <em>rechaza</em> registrarla — no hay error que medir, y una "corrección" sobre un puntaje inexistente contaminaría la calibración con una diferencia inventada.</p>
+  <div class="refs">
+    <span class="ref"><b>modulos/feedback.py</b> · bucle_feedback_consola</span>
+    <span class="ref"><b>·</b> _bucle_feedback_interactivo ~L280</span>
+    <span class="ref"><b>·</b> puntaje None → se rechaza L339</span>
+  </div>
+</section>
+
+<!-- 3 -->
+<section>
+  <h2><span class="n">03</span> Puerta B — chat de sustentación (web)</h2>
+  <p>En el panel web, el validador discute cada observación con el agente y decide. Al <strong>consolidar</strong> el cierre, el endpoint recomputa el puntaje exacto y llama a <code>registrar_aprendizaje_desde_chat</code>, que traduce cada decisión del chat en una fila de feedback con esta regla:</p>
+  <div class="maps">
+    <div class="map a">
+      <span class="verdict">APROBADO</span>
+      <p>El validador subsanó la observación: se toma como que el criterio <em>sí</em> se cumplía.</p>
+      <span class="eq">puntaje_correcto = 5</span>
+    </div>
+    <div class="map n">
+      <span class="verdict">NEGADO</span>
+      <p>Se confirma el juicio del agente. Diferencia 0: <em>refuerza</em> el criterio, no lo mueve.</p>
+      <span class="eq">puntaje_correcto = puntaje_agente</span>
+    </div>
+    <div class="map p">
+      <span class="verdict">PENDIENTE</span>
+      <p>No es una decisión validada, así que no genera aprendizaje.</p>
+      <span class="eq">se omite</span>
+    </div>
+  </div>
+  <div class="note"><span class="lbl">Idempotente</span>Re-consolidar la misma sesión no duplica filas: la clave es <code>(modelo, ámbito, actividad, sesión_chat)</code>. Volver a cerrar el chat no infla el historial.</div>
+  <div class="refs">
+    <span class="ref"><b>web/routers/chat.py</b> · consolidar_chat L121</span>
+    <span class="ref"><b>modulos/feedback.py</b> · registrar_aprendizaje_desde_chat L461</span>
+  </div>
+</section>
+
+<!-- 4 -->
+<section>
+  <h2><span class="n">04</span> El almacén — una fila por corrección</h2>
+  <p>Todo va a un solo archivo: <span class="path">feedback/historial_feedback.json</span>, una lista de objetos. Estos son los campos que realmente se escriben:</p>
+  <div class="record">
+    <table>
+      <tr><td class="k">ambito / actividad</td><td class="v">a qué evaluación aplica la corrección</td></tr>
+      <tr><td class="k">puntaje_agente</td><td class="v">lo que puso el modelo</td></tr>
+      <tr><td class="k">puntaje_correcto</td><td class="v">lo que dijo el humano</td></tr>
+      <tr><td class="k">diferencia</td><td class="v">correcto − agente · <b>el número que mueve todo lo demás</b></td></tr>
+      <tr><td class="k">comentario</td><td class="v">qué debió hacer el agente (texto libre)</td></tr>
+      <tr><td class="k">validador / cargo</td><td class="v">quién firmó la corrección (para el anexo de auditoría)</td></tr>
+      <tr><td class="k">origen / sesion_chat</td><td class="v">de dónde salió (chat_sustentacion) y su sesión</td></tr>
+      <tr><td class="k">_id</td><td class="v">hash de contenido, para fusionar sin duplicar</td></tr>
+    </table>
+  </div>
+  <div class="note warn"><span class="lbl">Por qué el guardado es cuidadoso</span>Este JSON <strong>no es regenerable</strong>: son juicios humanos, meses de calibración. Por eso se escribe con lock entre procesos + <code>tmp</code>+<code>os.replace</code> atómico + fusión con lo que otro proceso haya añadido. Y al leer, un archivo corrupto se respalda como <span class="path">.corrupto-&lt;ts&gt;</span> en vez de devolver una lista vacía en silencio (que en el pasado <em>borraba</em> el historial en el siguiente guardado).</p>
+  </div>
+  <div class="refs">
+    <span class="ref"><b>feedback.py</b> · guardar_historial L153</span>
+    <span class="ref"><b>·</b> cargar_historial + backup L123</span>
+  </div>
+</section>
+
+<!-- 5 -->
+<section>
+  <h2><span class="n">05</span> Cómo influye en la siguiente corrida</h2>
+  <p class="sub">Al evaluar una actividad, <code>motor_ia.evaluar_actividad</code> activa tres mecanismos independientes. Los dos primeros <em>informan</em> al modelo; el tercero <em>corrige</em> el número que devolvió.</p>
+
+  <div class="mech m1">
+    <span class="tag">Mecanismo 1 · informa</span>
+    <h3>Correcciones similares, inyectadas como texto en el prompt</h3>
+    <p><code>construir_contexto_feedback(ámbito, actividad)</code> busca hasta 5 correcciones del mismo ámbito cuyo nombre de actividad solape con la actual (si no hay coincidencia fina, usa las 3 últimas del ámbito). Las pega en el prompt bajo el rótulo:</p>
+    <pre><span class="c"># bloque real en el prompt (motor_ia.py L880)</span>
+APRENDIZAJE DE CORRIDAS ANTERIORES:
+- Actividad: '...' | Agente dio 2/5, correcto era 4/5
+  (el agente <span class="s">subestimó</span> en 2 punto(s)). Comentario: ...
+→ Considera este historial para calibrar tu evaluación actual.</pre>
+    <p class="sub">El modelo ve dónde se equivocó antes y en qué dirección — pero decide su puntaje con libertad.</p>
+  </div>
+
+  <div class="mech m2">
+    <span class="tag">Mecanismo 2 · informa</span>
+    <h3>Advertencia agregada por tendencia del ámbito</h3>
+    <p><code>analizar_patron_errores(ámbito)</code> promedia la <code>diferencia</code> de todas las correcciones de ese ámbito. Si la severidad es media o alta, inyecta un aviso dirigido:</p>
+    <pre>⚠️  ADVERTENCIA POR APRENDIZAJE PREVIO:
+  Tendiste a <span class="s">SUBESTIMAR</span> este ámbito en promedio 1.4 punto(s).
+  SÉ MÁS GENEROSO... reconoce cuando sí se cumple, aunque sea parcial.
+  Criterios clave a buscar: documentado, implementado, coherente</pre>
+    <p class="sub">Es la lección del ámbito completo, no de una actividad puntual. Con severidad baja, este bloque queda vacío.</p>
+  </div>
+
+  <div class="mech m3">
+    <span class="tag">Mecanismo 3 · corrige el número</span>
+    <h3>Ajuste post-hoc del puntaje, deliberadamente débil</h3>
+    <p>Después de que el modelo responde, <code>ajustar_puntaje_por_feedback</code> toma el puntaje crudo y, <strong>solo si hay ≥ 15 muestras similares</strong>, le suma el promedio de sus diferencias multiplicado por <strong>0.4</strong> y recortado a <strong>±1 punto</strong>:</p>
+    <pre>ajuste = clamp(mean(diferencias) × 0.4, −1, +1)
+puntaje_final = clamp(1, 5, round(puntaje_crudo + ajuste))</pre>
+    <div class="note warn"><span class="lbl">Por qué tan conservador</span>El umbral (<code>MIN_MUESTRAS_AJUSTE = 15</code>), el factor 0.4 y la cota ±1 existen para que el número <strong>no se dispare por 1–2 correcciones</strong>. Antes el umbral estaba en 3 y hardcodeado: 3 muestras con diferencia +2 subían un 2.0 a 3 — un punto entero sobre 5 que el knob documentado no controlaba. Ahora está atado a la misma guardia de masa crítica que el bloque anti-sesgo.</div>
+  </div>
+  <div class="refs">
+    <span class="ref"><b>motor_ia.py</b> · construir_contexto_feedback L701</span>
+    <span class="ref"><b>·</b> construir_bloque_aprendizaje L702</span>
+    <span class="ref"><b>·</b> ajustar_puntaje_por_feedback L1126</span>
+    <span class="ref"><b>config/parametros.py</b> · MIN_MUESTRAS_AJUSTE=15</span>
+  </div>
+</section>
+
+<!-- 6 -->
+<section>
+  <h2><span class="n">06</span> Lo que sí es y lo que no es</h2>
+  <div class="isnot">
+    <div class="col no">
+      <h3>No es</h3>
+      <ul>
+        <li>Fine-tuning ni cambio de pesos del modelo</li>
+        <li>Embeddings ni base vectorial (el RAG es léxico y aparte)</li>
+        <li>Un puntaje que el humano sobre-escribe directo en la siguiente corrida</li>
+        <li>Memoria por conversación: es un historial compartido en disco</li>
+      </ul>
+    </div>
+    <div class="col yes">
+      <h3>Sí es</h3>
+      <ul>
+        <li>Un JSON de correcciones humanas, acumulado y atribuido</li>
+        <li>Reinyección de esas correcciones como contexto del prompt</li>
+        <li>Un nudge numérico acotado (±1) con masa crítica exigida</li>
+        <li>Calibración anti-sesgo por ámbito, medible con estadísticas</li>
+      </ul>
+    </div>
+  </div>
+  <div class="note ok"><span class="lbl">La consecuencia práctica</span>El agente "aprende" en el sentido de que <strong>repite menos los errores que un humano ya le señaló</strong>, porque esos errores vuelven a estar frente al modelo cada vez que evalúa algo parecido. No cambia el modelo; cambia lo que el modelo lee y un ajuste pequeño de su salida. Es auditable —cada corrección tiene autor, fecha y origen— y reversible —basta editar o vaciar el JSON.</div>
+</section>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>VIRF Agent · flujo verificado en código</span>
+    <span>feedback.py · feedback_mejorado.py · motor_ia.py · chat.py</span>
+  </div>
+</footer>
+
+</body>
+</html>

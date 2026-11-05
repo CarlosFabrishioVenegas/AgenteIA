@@ -1,0 +1,44 @@
+============================= test session starts =============================
+platform win32 -- Python 3.10.10, pytest-8.4.2, pluggy-1.6.0
+rootdir: C:\Users\REC TECHNOLOGY\Desktop\Cursos\Proyectos\Repo_proyectosPersonales\Proyecto_Validador_autonomo\virf_agent_v27_final (1)
+configfile: pytest.ini
+testpaths: .
+plugins: anyio-4.11.0, dash-3.2.0, timeout-2.4.0
+collected 951 items
+
+tests\test_abstencion.py ......                                          [  0%]
+tests\test_aislamiento.py .......                                        [  1%]
+tests\test_azure_mocks.py .............................................. [  6%]
+..............................                                           [  9%]
+tests\test_beta_calibracion.py .....                                     [  9%]
+tests\test_chunker_estructural.py .......                                [ 10%]
+tests\test_circuit_breakers.py ........                                  [ 11%]
+tests\test_citas_deterministas.py .......                                [ 12%]
+tests\test_docx_regresion.py ......                                      [ 12%]
+tests\test_esquemas.py ..........                                        [ 13%]
+tests\test_estandares_sesion.py ..........                               [ 14%]
+tests\test_estructura_config.py ......................                   [ 17%]
+tests\test_pendientes_auditoria.py ..................................... [ 21%]
+........................................................................ [ 28%]
+........................................................................ [ 36%]
+.................................................                        [ 41%]
+tests\test_prompts_editables.py .................                        [ 43%]
+tests\test_rag_lexico.py .......................................         [ 47%]
+tests\test_regresion.py ......s......................................... [ 52%]
+........................................................................ [ 59%]
+........................................................................ [ 67%]
+........................................................................ [ 75%]
+........................................................................ [ 82%]
+........................................................................ [ 90%]
+........................................................................ [ 97%]
+........                                                                 [ 98%]
+tests\test_versionado.py .............                                   [100%]
+
+============================== warnings summary ===============================
+tests/test_regresion.py::TestAuditoriaLecturaFallidaNoEsCoberturaTotal::test_pdf_ilegible_no_reporta_cobertura_total
+  C:\Users\REC TECHNOLOGY\AppData\Local\Programs\Python\Python310\lib\site-packages\PyPDF2\__init__.py:21: DeprecationWarning: PyPDF2 is deprecated. Please move to the pypdf library instead.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: C:\Users\REC TECHNOLOGY\Desktop\Cursos\Proyectos\Repo_proyectosPersonales\Proyecto_Validador_autonomo\virf_agent_v27_final (1)\docs\evidencia\pytest_golden.xml -
+============ 950 passed, 1 skipped, 1 warning in 281.04s (0:04:41) ============

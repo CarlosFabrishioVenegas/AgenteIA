@@ -1,0 +1,9 @@
+[
+  {"wp_id": "SK-00 contrato base tipado", "estado": "HECHO", "indicadores_movidos": ["A3"]},
+  {"wp_id": "SK-01 declarar 6 skills", "estado": "HECHO", "indicadores_movidos": ["A3"]},
+  {"wp_id": "SK-02 Calidad de Datos determinista+sandbox", "estado": "HECHO", "indicadores_movidos": ["A3"]},
+  {"wp_id": "SK-03 cola PENDIENTE (HITL)", "estado": "HECHO", "indicadores_movidos": ["A4"]},
+  {"wp_id": "SK-04 arnes pytest por skill", "estado": "HECHO", "indicadores_movidos": ["E1"]},
+  {"wp_id": "SK-05 Coordinador ReAct+function calling", "estado": "PENDIENTE", "indicadores_movidos": ["A3"]},
+  {"wp_id": "SK-06..10 otras 5 skills a fondo", "estado": "PENDIENTE", "indicadores_movidos": ["A3"]}
+]

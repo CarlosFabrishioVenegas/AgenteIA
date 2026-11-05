@@ -1,0 +1,10 @@
+[
+  {"wp_id": "WP-09", "estado": "HECHO", "indicadores_movidos": ["A2"]},
+  {"wp_id": "WP-10", "estado": "HECHO", "indicadores_movidos": ["A2"]},
+  {"wp_id": "WP-08-estructura", "estado": "HECHO", "indicadores_movidos": ["F2", "F3"]},
+  {"wp_id": "cutover-chunking", "estado": "HECHO", "indicadores_movidos": []},
+  {"wp_id": "beta-calibracion", "estado": "HECHO", "indicadores_movidos": ["D3"]},
+  {"wp_id": "WP-04", "estado": "PENDIENTE", "indicadores_movidos": ["D4"]},
+  {"wp_id": "WP-06", "estado": "PENDIENTE", "indicadores_movidos": ["B1", "B2", "B4"]},
+  {"wp_id": "WP-07", "estado": "PENDIENTE", "indicadores_movidos": ["D1", "D5"]}
+]

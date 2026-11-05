@@ -1,0 +1,10 @@
+[
+  {"wp_id": "WP-00", "estado": "HECHO", "indicadores_movidos": ["E1", "E4", "A1", "A2", "A3"]},
+  {"wp_id": "WP-05", "estado": "HECHO", "indicadores_movidos": ["D6"]},
+  {"wp_id": "WP-01", "estado": "HECHO", "indicadores_movidos": ["D3"]},
+  {"wp_id": "WP-02", "estado": "HECHO", "indicadores_movidos": ["D2"]},
+  {"wp_id": "WP-03", "estado": "HECHO", "indicadores_movidos": ["D4"]},
+  {"wp_id": "WP-07", "estado": "EN_CURSO", "indicadores_movidos": ["D1"]},
+  {"wp_id": "GAP-29-chunking", "estado": "HECHO", "indicadores_movidos": []},
+  {"wp_id": "WP-08", "estado": "PENDIENTE", "indicadores_movidos": ["F1", "F2", "F3"]}
+]
